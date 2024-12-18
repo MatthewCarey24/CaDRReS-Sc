@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 from scipy.special import xlogy
+import csv
 
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
@@ -60,6 +61,18 @@ def plot_scatter(data_df, x, y, hue, hue_order=None, style=None, markers=None, s
     box = ax.get_position()
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+
+# for reading cancer specific genes
+def read_first_column(tsv_file_path):
+    first_column = []
+    with open(tsv_file_path, 'r') as file:
+        reader = csv.reader(file, delimiter='\t') 
+        for row in reader:
+            if row:  # Check if the row is not empty
+                first_column.append(row[0])  # Add the first element of the row
+    return first_column
+
 
 def get_gene_list(gene_list_fname):
     return list(pd.read_csv(gene_list_fname, header=None)[0].values)

@@ -1,0 +1,4 @@
+Intogen V1 (no CV)
+Average of sample spearman correlation: 0.3898356091895378
+Average of drug spearman correlation: nan
+Average of samples NDCG value: 0.6589016486801139
