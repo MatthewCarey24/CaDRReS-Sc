@@ -8,37 +8,7 @@ from tensorflow.keras import layers
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer  # Import SimpleImputer for imputation
 
-# Function to calculate NDCG
-def ndcg_at_k(y_true, y_pred, k=10):
-    """
-    Compute the Normalized Discounted Cumulative Gain (NDCG) at rank k.
-    
-    Parameters:
-    - y_true: True IC50 values (array-like)
-    - y_pred: Predicted IC50 values (array-like)
-    - k: Rank position for NDCG (default 10)
-    
-    Returns:
-    - NDCG score (float)
-    """
-    # Sort the true values and predicted values in descending order
-    order_true = np.argsort(y_true)[::-1]
-    order_pred = np.argsort(y_pred)[::-1]
-    
-    # Compute DCG
-    dcg = 0
-    for i in range(k):
-        if i < len(y_true):
-            # Discounted Cumulative Gain (DCG)
-            dcg += (2**y_true[order_pred[i]] - 1) / np.log2(i + 2)
-    
-    # Compute Ideal DCG (IDCG)
-    idcg = 0
-    for i in range(k):
-        if i < len(order_true):
-            idcg += (2**y_true[order_true[i]] - 1) / np.log2(i + 2)
-    
-    return dcg / idcg if idcg > 0 else 0
+import evaluation
 
 ###################################objective###################################
 #
@@ -127,7 +97,7 @@ def objective(df_path, frac_test, trial):
     r2_score = 1 - np.sum((y_test - y_pred) ** 2) / np.sum((y_test - np.mean(y_test)) ** 2)
     
     # Calculate NDCG at rank 10
-    ndcg_score = ndcg_at_k(y_test, y_pred, k=10)
+    ndcg_score = evaluation.calculate_ndcg(y_test, y_pred, k=10)
     
     print(f"R^2 Score: {r2_score:.4f}, NDCG at 10: {ndcg_score:.4f}")
     
