@@ -1,0 +1,4 @@
+Ess genes v1 (no CV)
+Average of sample spearman correlation: 0.3880890774382629
+Average of drug spearman correlation: nan
+Average of samples NDCG value: 0.6557105814908604
